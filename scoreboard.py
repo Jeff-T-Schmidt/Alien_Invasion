@@ -29,8 +29,9 @@ class Scoreboard:
         self.score_rect = self.score_image.get_rect()
         #Super weird - the book says to set to 20 but when I 
         #do nothing shows up, after some playing around, I got
-        #1700 to show up in the top right of my screen
-        self.score_rect.right = self.score_rect.right + 1700
+        #1700 to show up in the top right of my screen, when in 
+        #fullscreen
+        self.score_rect.right = self.score_rect.right + 20
         self.score_rect.top = 20
 
     def show_score(self):
