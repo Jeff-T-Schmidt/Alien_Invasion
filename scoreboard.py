@@ -31,7 +31,7 @@ class Scoreboard:
         #do nothing shows up, after some playing around, I got
         #1700 to show up in the top right of my screen, when in 
         #fullscreen
-        self.score_rect.right = self.score_rect.right + 20
+        self.score_rect.right = self.score_rect.right + 1700
         self.score_rect.top = 20
 
     def show_score(self):
