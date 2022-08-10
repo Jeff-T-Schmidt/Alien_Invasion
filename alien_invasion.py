@@ -2,6 +2,7 @@ import sys
 from time import sleep
 
 import pygame
+import pygame.mixer
 
 from settings import Settings
 from game_stats import GameStats
@@ -102,6 +103,7 @@ class AlienInvasion:
 
     def _check_play_button(self, mouse_pos):
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        
         if button_clicked and not self.stats.game_active:
             self.settings.initialize_dynamic_settings()
             self.stats.reset_stats()
@@ -116,9 +118,15 @@ class AlienInvasion:
             self._create_fleet()
             self.ship.center_ship()
 
+            pygame.mixer.music.load('sound/music.wav')
+            pygame.mixer.music.play(-1)
+            pygame.mixer.music.set_volume(0.3)
+
             pygame.mouse.set_visible(False)
 
     def _check_keydown_events(self, event):
+        gun = pygame.mixer.Sound('sound/laser.wav')
+        gun.set_volume(0.3)
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
@@ -127,6 +135,7 @@ class AlienInvasion:
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self.fire_bullet()
+            pygame.mixer.Sound.play(gun)
 
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -155,6 +164,9 @@ class AlienInvasion:
         if collisions:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
+            boom = pygame.mixer.Sound('sound/explode.wav')
+            boom.set_volume(0.4)
+            pygame.mixer.Sound.play(boom)
             self.sb.prep_score()
             self.sb.check_high_score()
 
